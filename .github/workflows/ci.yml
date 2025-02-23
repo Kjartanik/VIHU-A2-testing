@@ -54,7 +54,7 @@ jobs:
           name: coverage-report
           path: ./coverage
 
-  publish:
+    publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -67,15 +67,11 @@ jobs:
         with:
           bun-version: latest
 
-      # Set up npm authentication for GitHub
+      # Set up npm authentication for GitHub Packages
       - name: Setup npm auth
         run: |
-          echo "@$kjartanik:registry=https://npm.pkg.github.com/" > .npmrc
+          echo "@${{ secrets.GITHUB_USERNAME }}:registry=https://npm.pkg.github.com/" > .npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
-
-      # Log in to GitHub Packages
-      - name: Log in to GitHub Packages
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
 
       # Publish to GitHub Packages
       - name: Publish package to GitHub Packages

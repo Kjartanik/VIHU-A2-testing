@@ -1,5 +1,5 @@
 {
-  "name": "assignment-2-testing",
+  "name": "@kjartanik/assignment-2-testing",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -12,5 +12,8 @@
     "date-fns": "^4.1.0",
     "moment": "^2.29.4",
     "vitest": "^3.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
   }
 }

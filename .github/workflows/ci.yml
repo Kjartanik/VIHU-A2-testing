@@ -54,7 +54,7 @@ jobs:
           name: coverage-report
           path: ./coverage
 
-    publish:
+  publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:

@@ -47,10 +47,6 @@ jobs:
       - name: Run tests with npm
         run: npm run test -- --coverage
 
-      # Upload coverage report to coverage folder
-      - name: Save coverage report
-        run: mkdir -p coverage && mv ./coverage/* coverage/
-
       # Upload coverage to github
       - name: Upload coverage to GitHub
         uses: actions/upload-artifact@v4

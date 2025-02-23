@@ -3,3 +3,4 @@ coverage
 src/constants.js
 src/dateUtils.js
 src/__tests__/dateUtils.test.js
+.npmrc

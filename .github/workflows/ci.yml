@@ -70,12 +70,12 @@ jobs:
       # Set up npm authentication for GitHub Packages
       - name: Set up npm auth
         run: |
-          echo "@${{ secrets.GITHUB_USERNAME }}:registry=https://npm.pkg.github.com/" > .npmrc
+          echo "@${{ github.actor }}:registry=https://npm.pkg.github.com/" > .npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
 
       # Log in to GitHub Packages
       - name: Log in to GitHub Packages
-        run: bunx npm login --registry=https://npm.pkg.github.com/ --scope=@${{ secrets.GITHUB_USERNAME }} --auth-token=${{ secrets.GITHUB_TOKEN }}
+        run: bunx npm login --registry=https://npm.pkg.github.com/ --scope=@${{ github.actor }} --auth-token=${{ secrets.GITHUB_TOKEN }}
 
       # Publish to GitHub Packages
       - name: Publish package to GitHub Packages

@@ -68,12 +68,16 @@ jobs:
           bun-version: latest
 
       # Set up npm authentication for GitHub Packages
-      - name: Setup npm auth
+      - name: Set up npm auth
         run: |
           echo "@${{ secrets.GITHUB_USERNAME }}:registry=https://npm.pkg.github.com/" > .npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
 
-      # Publish to GitHub Packages.
+      # Log in to GitHub Packages
+      - name: Log in to GitHub Packages
+        run: bunx npm login --registry=https://npm.pkg.github.com/ --scope=@${{ secrets.GITHUB_USERNAME }} --auth-token=${{ secrets.GITHUB_TOKEN }}
+
+      # Publish to GitHub Packages
       - name: Publish package to GitHub Packages
         run: bun publish
         env:

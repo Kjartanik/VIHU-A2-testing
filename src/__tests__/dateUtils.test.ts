@@ -14,10 +14,6 @@ describe('Date Utils', () => {
       const currentYear = new Date().getFullYear();
       expect(getCurrentYear()).toEqual(currentYear);
     })
-
-    it('should be 2025', () => {
-      expect(getCurrentYear()).toEqual(2025);
-    });
   });
 
   describe('add', () => {

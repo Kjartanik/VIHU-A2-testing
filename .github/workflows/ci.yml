@@ -1,116 +1,17 @@
-# name: Pipeline
-
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#     branches:
-#       - main
-
-# jobs:
-#   typecheck:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v3
-
-#       # Set up Bun
-#       - name: Set up Bun
-#         uses: oven-sh/setup-bun@v1
-#         with:
-#           bun-version: latest
-      
-#       - name: Install dependencies
-#         run: bun install
-
-#       # Typecheck with TypeScript
-#       - name: TypeScript Typecheck
-#         run: bun tsc
-
-#   test:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v3
-
-#       # Set up Bun
-#       - name: Set up Bun
-#         uses: oven-sh/setup-bun@v1
-#         with:
-#           bun-version: latest
-      
-#       # Install dependencies
-#       - name: Install dependencies
-#         run: bun install
-
-#       # Run tests
-#       - name: Run tests with npm
-#         run: npm run test -- --coverage
-
-#       # Upload coverage to GitHub
-#       - name: Upload coverage to GitHub
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: coverage-report
-#           path: ./coverage
-
-#   publish:
-#     runs-on: ubuntu-latest
-#     permissions:
-#       contents: read
-#       packages: write
-#       id-token: write
-
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v3
-
-      # # Set up Node.js
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '18'
-      #     registry-url: 'https://npm.pkg.github.com/'
-      #     scope: '@kjartanik'
-      #     always-auth: true
-
-      # # Check npm authentication
-      # - name: Authenticate NPM
-      #   run: npm whoami --registry=https://npm.pkg.github.com/
-      #   env:
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      # # Publish to GitHub Packages
-      # - name: Publish to GitHub Packages
-      #   run: npm publish --registry=https://npm.pkg.github.com/
-      #   env:
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      # # # Publish to NPM registry
-      # # - name: Publish to NPM Registry
-      # #   run: npm publish
-      # #   env:
-      #      NPM_TOKEN: ${{ secrets.NPM_SECRET }}
 name: CI Pipeline
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  install_dependencies:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-      attestations: write
-      id-token: write
-
+    outputs:
+      node_modules: ${{ steps.install_dependencies.outputs.node_modules }}
+    
     steps:
-            
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -118,34 +19,83 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@kjartanik'
           always-auth: true
-      
+
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
         with: 
           bun-version: "latest"
-      
-      - name: Install dependencies
+        
+      - name: Install dependencies with Bun
+        id: install_dependencies
         run: bun install
 
-      - name: Install dependencies
+      - name: Install dependencies with npm
         run: npm install
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # - name: Typecheck
-      #  run: npm run typecheck
+  typecheck:
+    runs-on: ubuntu-latest
+    needs: install_dependencies
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with: 
+          bun-version: "latest"
+
+      - name: Install dependencies with Bun
+        run: bun install
+        
+      - name: Typecheck
+        run: bun tsc
+
+  test:
+    runs-on: ubuntu-latest
+    needs: install_dependencies
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with: 
+          bun-version: "latest"
+
+      - name: Install dependencies with Bun
+        run: bun install
 
       - name: Run tests with coverage
         run: bun run test --coverage
-
-      - name: Clear npm cache
-        run: npm cache clean --force
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4 
         with:
           name: coverage-report
           path: coverage
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: install_dependencies
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with: 
+          bun-version: "latest"
+
+      - name: Install dependencies with Bun
+        run: bun install
 
       - name: Bump package version
         run: npm version patch --no-git-tag-version
@@ -154,7 +104,7 @@ jobs:
         run: |
           echo "@kjartanik:registry=https://npm.pkg.github.com/" > .npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
-  
+
       - name: Publish package to GitHub Packages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:

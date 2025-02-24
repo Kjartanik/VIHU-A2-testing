@@ -136,7 +136,7 @@ jobs:
       #  run: npm run typecheck
 
       - name: Run tests with coverage
-        run: npm run test
+        run: bun run test --coverage
 
       - name: Clear npm cache
         run: npm cache clean --force

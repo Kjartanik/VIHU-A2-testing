@@ -1,9 +1,16 @@
 {
   "name": "@kjartanik/assignment-2-testing",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kjartanik/assignment-2-testing.git"
+  },
   "version": "1.0.0",
   "description": "",
   "scripts": {
     "test": "vitest"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [],
   "author": "",

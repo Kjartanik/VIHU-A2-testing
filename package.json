@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git://github.com/kjartanik/assignment-2-testing.git"
   },
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "scripts": {
     "test": "vitest"

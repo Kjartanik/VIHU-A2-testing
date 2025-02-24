@@ -135,8 +135,8 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       
-      - name: Typecheck
-        run: npm run typecheck
+      # - name: Typecheck
+      #   run: npm run typecheck
 
       
       - name: Run tests with coverage

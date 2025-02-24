@@ -73,6 +73,8 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@kjartanik'
           always-auth: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
 
       # GitHub Packages Authentication
       - name: Publish to GitHub Packages

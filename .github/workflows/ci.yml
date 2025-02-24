@@ -11,13 +11,6 @@ on:
 jobs:
   typecheck:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-      attestations: write
-      id-token: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -73,22 +66,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '18'
-      #     registry-url: 'https://npm.pkg.github.com/'
-      #     scope: '@kjartanik'
-      #     always-auth: true
-      #     token: ${{ secrets.NPM_SECRET }}
-
-      - name: Check npm authentication
-        run: npm whoami --registry=https://npm.pkg.github.com/
-        env:
-          NPM_SECRET: ${{secrets.NPM_SECRET}}
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@kjartanik'
+          always-auth: true
 
       # GitHub Packages Authentication
       - name: Publish to GitHub Packages
         run: npm publish
         env:
-          NPM_SECRET: ${{ secrets.NPM_SECRET }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # NPM Registry Authentication
+      - name: Publish to NPM
+        run: npm publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_SECRET }}
+

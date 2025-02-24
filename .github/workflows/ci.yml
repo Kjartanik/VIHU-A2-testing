@@ -55,30 +55,26 @@ jobs:
           path: ./coverage
 
   publish:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Set up Bun
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          bun-version: latest
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@kik_code'
+          always-auth: true
 
-      # Set up npm authentication for GitHub Packages
-      - name: Set up npm auth
-        run: |
-          echo "@${{ github.actor }}:registry=https://npm.pkg.github.com/" > .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
-
-      # Log in to GitHub Packages
-      - name: Log in to GitHub Packages
-        run: bunx npm login --registry=https://npm.pkg.github.com/ --scope=@${{ github.actor }} --auth-token=${{ secrets.GITHUB_TOKEN }}
-
-      # Publish to GitHub Packages
-      - name: Publish package to GitHub Packages
-        run: bun publish
+      - name: Check npm authentication
+        run: npm whoami --registry=https://npm.pkg.github.com/
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_SECRET }}
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_SECRET }}
+

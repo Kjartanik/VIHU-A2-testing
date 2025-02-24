@@ -15,12 +15,11 @@ const ruleTester = new RuleTester({
   },
 });
 
-// These calls register tests immediately with the global describe/it that Vitest provides
 ruleTester.run("enforce-camel-case", enforceCamelCaseRule, {
   valid: [
     { code: "const myVariable = 123;" },
     { code: "function testFunction() {}" },
-    { code: "class myClass {}" }, // must start with lowercase per rule
+    { code: "class myClass {}" },
   ],
   invalid: [
     {

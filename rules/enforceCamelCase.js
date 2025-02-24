@@ -3,7 +3,6 @@
  */
 "use strict";
 
-// Check if a name is in camelCase: starts with a lowercase letter followed by letters and digits.
 function isCamelCase(name) {
   return /^[a-z][a-zA-Z0-9]*$/.test(name);
 }
@@ -39,13 +38,12 @@ const enforceCamelCase = {
     }
 
     return {
-      // Check variable declarations: e.g., let my_variable = 1;
       VariableDeclarator(node) {
         if (node.id && node.id.type === "Identifier") {
           checkAndReport(node.id, node.id.name);
         }
       },
-      // Check function declarations and parameters.
+
       FunctionDeclaration(node) {
         if (node.id && node.id.type === "Identifier") {
           checkAndReport(node.id, node.id.name);
@@ -56,7 +54,7 @@ const enforceCamelCase = {
           }
         });
       },
-      // Check function expressions and their parameters.
+
       FunctionExpression(node) {
         if (node.id && node.id.type === "Identifier") {
           checkAndReport(node.id, node.id.name);
@@ -67,7 +65,7 @@ const enforceCamelCase = {
           }
         });
       },
-      // Check arrow function parameters.
+
       ArrowFunctionExpression(node) {
         node.params.forEach((param) => {
           if (param.type === "Identifier") {
@@ -75,7 +73,7 @@ const enforceCamelCase = {
           }
         });
       },
-      // Check class declarations.
+
       ClassDeclaration(node) {
         if (node.id && node.id.type === "Identifier") {
           checkAndReport(node.id, node.id.name);

@@ -4,7 +4,6 @@ import forbidRestrictedPackages from "./rules/forbidRestrictedPackage.js";
 import tsParser from "@typescript-eslint/parser";
 
 export default [
-  // Global configuration for JavaScript and TypeScript files
   {
     files: ["**/*.{js,ts}"],
     ignores: ["node_modules/", ".github/", "rules/"],
@@ -26,7 +25,6 @@ export default [
       ],
     },
   },
-  // Override for TypeScript files so they parse correctly using @typescript-eslint/parser
   {
     files: ["**/*.ts"],
     languageOptions: {
@@ -36,10 +34,8 @@ export default [
       "@typescript-eslint": {},
     },
     rules: {
-      // Add or override rules for TS files here if needed
     },
   },
-  // Disable custom rules for files in the rules folder
   {
     files: ["rules/**"],
     rules: {

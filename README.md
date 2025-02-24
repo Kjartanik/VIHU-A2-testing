@@ -1,5 +1,4 @@
- # Assignment 2 - unit testing
-
+# Assignment 2 - unit testing
 
 This assignment is meant to improve your unit testing skills and teach you a few best practices when it comes to working with external libraries.
 
@@ -8,26 +7,26 @@ Since the library is abstracted the tests should still pass using the new librar
 
 Another task for you is to add type definition to the `dateUtils.ts` file. Please note that TypeScript is already set up, all you should need to do is to introduce types.
 
-
 **Group size:** 1 person
 
------
+---
 
 ## Prerequisite
 
 Make sure you have [Bun](https://bun.sh/) installed before starting the assignment.
-* Select "Use this Template" and create a new repository using this as a template repo
+
+- Select "Use this Template" and create a new repository using this as a template repo
 
 ## Setup
 
-* `bun install`
+- `bun install`
 
 ## Commands
-* `npm run test`
-    - This runs the test suite
 
+- `npm run test`
+  - This runs the test suite
 
-------------------
+---
 
 ## The assignment
 
@@ -46,10 +45,9 @@ Your tests suite should not be touched at this point, the unit tests you wrote i
 
 ### **Commit your changes.**
 
+---
 
---------
 ## Handin
 
 Add me (arnif) as a contributor to the Github repo. There should be at least 3 commits that include each step described above.
 Add a link to the Github repo when turning in your solution to Canvas.
-

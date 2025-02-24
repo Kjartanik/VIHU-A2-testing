@@ -1,61 +1,61 @@
-import {describe, it, expect} from 'vitest';
+import { describe, it, expect } from "vitest";
 import {
   getCurrentYear,
   add,
   isWithinRange,
   isDateBefore,
   isSameDay,
-} from '../dateUtils';
-import { DATE_UNIT_TYPES } from '../constants';
+} from "../dateUtils";
+import { DATE_UNIT_TYPES } from "../constants";
 
-describe('Date Utils', () => {
-  describe('getCurrentYear', () => {
-    it('should return the current year', () => {
+describe("Date Utils", () => {
+  describe("getCurrentYear", () => {
+    it("should return the current year", () => {
       const currentYear = new Date().getFullYear();
       expect(getCurrentYear()).toEqual(currentYear);
-    })
+    });
   });
 
-  describe('add', () => {
+  describe("add", () => {
     it("should add seconds correctly", () => {
       const initialDate = new Date("2000-01-01T00:00:00Z");
-      const updatedDate = add(initialDate, 10, DATE_UNIT_TYPES.SECONDS)
+      const updatedDate = add(initialDate, 10, DATE_UNIT_TYPES.SECONDS);
       expect(updatedDate.toISOString()).toEqual("2000-01-01T00:00:10.000Z");
     });
 
     it("should add minutes correctly", () => {
       const initialDate = new Date("2000-01-01T00:00:00Z");
-      const updatedDate = add(initialDate, 11, DATE_UNIT_TYPES.MINUTES)
+      const updatedDate = add(initialDate, 11, DATE_UNIT_TYPES.MINUTES);
       expect(updatedDate.toISOString()).toEqual("2000-01-01T00:11:00.000Z");
     });
 
     it("should add days correctly", () => {
       const initialDate = new Date("2000-01-01T00:00:00Z");
-      const updatedDate = add(initialDate, 12, DATE_UNIT_TYPES.DAYS)
+      const updatedDate = add(initialDate, 12, DATE_UNIT_TYPES.DAYS);
       expect(updatedDate.toISOString()).toEqual("2000-01-13T00:00:00.000Z");
     });
 
     it("should add months correctly", () => {
       const initialDate = new Date("2000-01-01T00:00:00Z");
-      const updatedDate = add(initialDate, 1, DATE_UNIT_TYPES.MONTHS)
+      const updatedDate = add(initialDate, 1, DATE_UNIT_TYPES.MONTHS);
       expect(updatedDate.toISOString()).toEqual("2000-02-01T00:00:00.000Z");
     });
 
     it("should add years correctly", () => {
       const initialDate = new Date("2000-01-01T00:00:00Z");
-      const updatedDate = add(initialDate, 1, DATE_UNIT_TYPES.YEARS)
+      const updatedDate = add(initialDate, 1, DATE_UNIT_TYPES.YEARS);
       expect(updatedDate.toISOString()).toEqual("2001-01-01T00:00:00.000Z");
     });
 
     it("should add days by default", () => {
       const initialDate = new Date("2000-01-01T00:00:00Z");
-      const updatedDate = add(initialDate, 12)
+      const updatedDate = add(initialDate, 12);
       expect(updatedDate.toISOString()).toEqual("2000-01-13T00:00:00.000Z");
     });
 
     it("should work with negative numbers", () => {
       const initialDate = new Date("2000-01-13T00:00:00Z");
-      const updatedDate = add(initialDate, -12, DATE_UNIT_TYPES.DAYS)
+      const updatedDate = add(initialDate, -12, DATE_UNIT_TYPES.DAYS);
       expect(updatedDate.toISOString()).toEqual("2000-01-01T00:00:00.000Z");
     });
   });

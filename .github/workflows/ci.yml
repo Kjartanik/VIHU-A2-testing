@@ -17,7 +17,7 @@ jobs:
       packages: write
       attestations: write
       id-token: write
-      
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -73,18 +73,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@kjartanik'
-          always-auth: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '18'
+      #     registry-url: 'https://npm.pkg.github.com/'
+      #     scope: '@kjartanik'
+      #     always-auth: true
+      #     token: ${{ secrets.NPM_SECRET }}
 
+      - name: Check npm authentication
+        run: npm whoami --registry=https://npm.pkg.github.com/
+        env:
+          NPM_SECRET: ${{secrets.NPM_SECRET}}
 
       # GitHub Packages Authentication
       - name: Publish to GitHub Packages
         run: npm publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_SECRET: ${{ secrets.NPM_SECRET }}

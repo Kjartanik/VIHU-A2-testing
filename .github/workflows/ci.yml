@@ -71,7 +71,7 @@ jobs:
         with:
           node-version: '18'
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@kik_code'
+          scope: '@kjartanik'
           always-auth: true
 
       - name: Check npm authentication
@@ -83,4 +83,3 @@ jobs:
         run: npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_SECRET }}
-
